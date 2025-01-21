@@ -1,0 +1,19 @@
+# Ignorer l'environnement virtuel
+venv/
+
+# Ignorer les fichiers compilés Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignorer les fichiers de configuration de l'IDE (PyCharm, VSCode, etc.)
+../../Desktop/PythonProject/.idea/
+.vscode/
+
+# Ignorer les fichiers de logs et d'autres fichiers temporaires
+*.log
+*.tmp
+
+# Ignorer les fichiers de cache
+*.cache
+*.pyo
