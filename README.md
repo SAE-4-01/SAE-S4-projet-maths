@@ -1,4 +1,6 @@
-Projet de mathématique TODO completer
+Projet de mathématique en python 
+
+Résolution de grille avec un algorithme en A*
 
 Équipe de développement :
 
