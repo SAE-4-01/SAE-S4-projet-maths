@@ -21,12 +21,13 @@ def display_menu() -> str:
        |     2. Générer un labyrinthe           |
        |     3. Résoudre un labyrinthe          |
        |     4. Afficher le labyrinthe          |
-       |     5. Quitter                         |
+       |     5. Exporter le labyrinthe          |
+       |     6. Quitter                         |
        +----------------------------------------+
        """)
     choix_input = input("Votre choix : ")
-    while choix_input not in ["1", "2", "3" ,"4", "5"]:
-        print("Choix invalide, veuillez choisir un nombre entre 1 et 5")
+    while choix_input not in ["1", "2", "3" ,"4", "5", "6"]:
+        print("Choix invalide, veuillez choisir un nombre entre 1 et 6")
         choix_input = input("Votre choix : ")
 
     return choix_input
@@ -35,7 +36,7 @@ def choisir_fichier() -> str:
     Méthode
     :return: le chemin d'accès au fichier
     """
-    fichiers = [f for f in os.listdir("ressources/") if os.path.isfile(os.path.join("ressources/", f))]
+    fichiers = [f for f in os.listdir("ressources/entree/") if os.path.isfile(os.path.join("ressources/entree/", f))]
     print("Liste des fichier trouvés :")
     for fichier in fichiers:
         print(f"- {fichier}")
@@ -46,7 +47,7 @@ def choisir_fichier() -> str:
             fichier_incorrect = False
         else:
             print("Fichier inexistant")
-    return "ressources/" + fichier_input
+    return "ressources/entree/" + fichier_input
 
 if __name__ == '__main__':
     grid = None
@@ -59,7 +60,7 @@ if __name__ == '__main__':
     ╚═╝        ╚═╝  ╚═╝      ╚═╝      ╚═╝  ╚═╝   ╚═════╝    ╚═══════╝   ╚═════╝    ╚═══╝     ╚══════╝   ╚═╝  ╚═╝
     """)
     choix = 0
-    while choix != "5":
+    while choix != "6":
         choix = display_menu()
         if choix == "1":
             path = choisir_fichier()
@@ -107,12 +108,18 @@ if __name__ == '__main__':
             if grid is None:
                 print("Veuillez d'abord importer ou générer une grille!")
             else :
-                print("exportation de la grille")
-                #TODO exporter la grille
+                print("choix de résolution")
+                #TODO solve la grille
         elif choix == "4":
             if grid is None:
                 print("Veuillez d'abord importer ou générer une grille!")
             else:
                 print("Affichage de la grille")
                 print(grid.__str__())
+        elif choix == "5":
+            if grid is None:
+                print("Veuillez d'abord importer ou générer une grille!")
+            else:
+                print("Exportation de la grille")
+                #TODO export la grille
     print("Au revoir!")
