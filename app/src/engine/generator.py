@@ -3,6 +3,36 @@ from app.src.engine.grille import Grille
 import random
 
 class Generator:
+    @staticmethod
+    def string_to_grid(grid_string: str) -> Grille:
+        """
+        Convertit une chaîne représentant la grille en un objet Grille.
+
+        :param grid_string: Une chaîne représentant la grille, avec des lignes séparées par des sauts de ligne.
+        :return: Un objet Grille rempli avec les cases de la chaîne.
+        """
+        # Découpe la chaîne en lignes
+        lines = grid_string.strip().split("\n")
+
+        # Crée une nouvelle grille avec le nombre de lignes et de colonnes
+        grid = Grille(len(lines), len(lines[0]))
+
+        # Remplir la grille avec les cases correspondantes
+        for i, line in enumerate(lines):
+            for j, char in enumerate(line):
+                if char == "X":
+                    grid.set_case(i, j, Croix())
+                elif char == "O":
+                    grid.set_case(i, j, Rond())
+                elif char == "D":
+                    grid.set_case(i, j, Depart())
+                elif char == "A":
+                    grid.set_case(i, j, Arrive())
+                else:
+                    print(f"Caractère invalide : {char} à la position ({i}, {j})")
+                    return None
+
+        return grid
     def generate_grid(grid: Grille, taux: float, option: bool) -> Grille:
         """
         Génère une grille avec un certain taux de CROIX parmi les cases.
