@@ -1,4 +1,8 @@
+import os
+
 from app.src.engine.generator import Generator
+from app.src.importer import Importer
+
 def display_menu() -> str:
     """
        Affiche le menu principal et demande à l'utilisateur de choisir ce qui veut faire
@@ -26,6 +30,23 @@ def display_menu() -> str:
         choix_input = input("Votre choix : ")
 
     return choix_input
+def choisir_fichier() -> str:
+    """
+    Méthode
+    :return: le chemin d'accès au fichier
+    """
+    fichiers = [f for f in os.listdir("ressources/") if os.path.isfile(os.path.join("ressources/", f))]
+    print("Liste des fichier trouvés :")
+    for fichier in fichiers:
+        print(f"- {fichier}")
+    fichier_incorrect = True
+    while fichier_incorrect:
+        fichier_input = input("Veuillez entrer le nom du fichier : ")
+        if fichier_input in fichiers:
+            fichier_incorrect = False
+        else:
+            print("Fichier inexistant")
+    return "ressources/" + fichier_input
 
 if __name__ == '__main__':
     grid = None
@@ -41,8 +62,8 @@ if __name__ == '__main__':
     while choix != "5":
         choix = display_menu()
         if choix == "1":
-            print("TODO")
-            # TODO
+            path = choisir_fichier()
+            grid = Importer.load_grid_from_file(path)
         elif choix == "2":
             # Sélection de la hauteur de la grille à générer
             hauteur = 2
