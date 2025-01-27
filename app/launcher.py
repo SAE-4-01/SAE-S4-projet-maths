@@ -16,12 +16,13 @@ def display_menu() -> str:
        |     1. Importer un labyrinthe          |
        |     2. Générer un labyrinthe           |
        |     3. Résoudre un labyrinthe          |
-       |     4. Quitter                         |
+       |     4. Afficher le labyrinthe          |
+       |     5. Quitter                         |
        +----------------------------------------+
        """)
     choix_input = input("Votre choix : ")
-    while choix_input not in ["1", "2", "3" ,"4"]:
-        print("Choix invalide, veuillez choisir un nombre entre 1 et 4")
+    while choix_input not in ["1", "2", "3" ,"4", "5"]:
+        print("Choix invalide, veuillez choisir un nombre entre 1 et 5")
         choix_input = input("Votre choix : ")
 
     return choix_input
@@ -37,7 +38,7 @@ if __name__ == '__main__':
     ╚═╝        ╚═╝  ╚═╝      ╚═╝      ╚═╝  ╚═╝   ╚═════╝    ╚═══════╝   ╚═════╝    ╚═══╝     ╚══════╝   ╚═╝  ╚═╝
     """)
     choix = 0
-    while choix != "4":
+    while choix != "5":
         choix = display_menu()
         if choix == "1":
             print("TODO")
@@ -87,4 +88,10 @@ if __name__ == '__main__':
             else :
                 print("exportation de la grille")
                 #TODO exporter la grille
+        elif choix == "4":
+            if grid is None:
+                print("Veuillez d'abord importer ou générer une grille!")
+            else:
+                print("Affichage de la grille")
+                print(grid.__str__())
     print("Au revoir!")
