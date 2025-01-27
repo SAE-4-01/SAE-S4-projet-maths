@@ -69,8 +69,8 @@ class Generator:
 
         # Remplir la grille avec les cases générées
         index_lecture = 0
-        for i in range(nb_ligne):
-            for j in range(nb_colonne):
+        for i in range(nb_colonne):
+            for j in range(nb_ligne):
                 grid.set_case(i, j, ensemble_case[index_lecture])
                 index_lecture += 1
 

@@ -47,7 +47,7 @@ if __name__ == '__main__':
             hauteur = 2
             print("Veuillez renseigner une hauteur de la grille à générer(>=3)")
             hauteur = input("Votre choix : ")
-            while hauteur < 3:
+            while int(hauteur) < 3:
                 print("Hauteur invalide, veuillez renseigner une hauteur supérieure ou égale à 3")
                 hauteur = input("Votre choix : ")
 
@@ -55,7 +55,7 @@ if __name__ == '__main__':
             largeur = 2
             print("Veuillez renseigner une largeur de la grille à générer(>=3)")
             largeur = input("Votre choix : ")
-            while largeur < 3:
+            while int(largeur) < 3:
                 print("Hauteur invalide, veuillez renseigner une largeur supérieure ou égale à 3")
                 largeur = input("Votre choix : ")
 
@@ -63,7 +63,7 @@ if __name__ == '__main__':
             taux = -1
             print("Veuillez renseigner un taux de génération de murs (exemple 0.2)")
             taux = input("Votre choix : ")
-            while taux < 0 or taux > 1:
+            while float(taux) < 0 or float(taux) > 1:
                 print("Taux invalide, veuillez renseigner un taux entre 0 et 1")
                 taux = input("Votre choix : ")
 
@@ -86,5 +86,5 @@ if __name__ == '__main__':
                 print("Veuillez d'abord importer ou générer une grille!")
             else :
                 print("exportation de la grille")
-                #TODO exporter la grille 
+                #TODO exporter la grille
     print("Au revoir!")

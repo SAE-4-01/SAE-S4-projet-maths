@@ -42,7 +42,7 @@ class Grille:
 
         return self.grille[ligne][colonne]
 
-    def set_case(self, ligne: int, colonne: int, case: Depart | Arrive | Rond | Croix | Point | Etoile):
+    def set_case(self, colonne: int, ligne: int, case: Depart | Arrive | Rond | Croix | Point | Etoile):
         """
         Permet de changer l'état d'une case
         :param ligne: l'indice de la ligne
@@ -54,7 +54,7 @@ class Grille:
         if colonne < 0 or colonne >= self.nb_colonne:
             raise IndexError("La colonne demandée est hors des limites de la grille")
 
-        self.grille[ligne][colonne] = case
+        self.grille[colonne][ligne] = case
 
     def __str__(self):
         """
@@ -68,8 +68,8 @@ class Grille:
 
         affichage += "\n" + " ___" * self.nb_colonne + "\n"
 
-        # Parcours des lignes de bas en haut
-        for lig in range(self.nb_ligne - 1, -1, -1):
+        # Parcours des lignes de haut en bas
+        for lig in range(self.nb_ligne):
             for col in range(self.nb_colonne):
                 case = " "
 
