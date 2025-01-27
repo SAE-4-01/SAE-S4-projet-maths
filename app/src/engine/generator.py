@@ -33,7 +33,7 @@ class Generator:
                     return None
 
         return grid
-    def generate_grid(grid: Grille, taux: float, option: bool) -> Grille:
+    def generate_grid(nb_colonne: int,nb_ligne: int, taux: float, option: bool) -> Grille:
         """
         Génère une grille avec un certain taux de CROIX parmi les cases.
         :param grid: La grille utilisée pour la génération.
@@ -41,7 +41,8 @@ class Generator:
         :param option: Active la génération des cases de départ et d'arrivée prédéfinies.
         :return: La grille générée en respectant le taux et l'option.
         """
-        nb_case = grid.get_nb_case()
+        grid = Grille(nb_ligne, nb_colonne)
+        nb_case = nb_colonne * nb_ligne
         ensemble_case = []
 
         # Générer les cases aléatoires en respectant le taux
@@ -68,8 +69,8 @@ class Generator:
 
         # Remplir la grille avec les cases générées
         index_lecture = 0
-        for i in range(grid.nb_ligne):
-            for j in range(grid.nb_colonne):
+        for i in range(nb_ligne):
+            for j in range(nb_colonne):
                 grid.set_case(i, j, ensemble_case[index_lecture])
                 index_lecture += 1
 
