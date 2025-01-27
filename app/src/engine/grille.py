@@ -81,3 +81,9 @@ class Grille:
             affichage += "|\n" + ("|___" * self.nb_colonne) + "|\n"
 
         return affichage
+
+    def get_nb_case(self):
+        """
+        :return: le nombre de cases dans la grille
+        """
+        return self.nb_ligne * self.nb_colonne
