@@ -71,7 +71,7 @@ class Generator:
         index_lecture = 0
         for i in range(nb_colonne):
             for j in range(nb_ligne):
-                grid.set_case(i, j, ensemble_case[index_lecture])
+                grid.set_case(j, i, ensemble_case[index_lecture])
                 index_lecture += 1
 
         return grid

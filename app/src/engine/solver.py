@@ -1,4 +1,5 @@
 from math import sqrt
+from typing import List, Tuple
 
 from app.src.engine.case import Depart,Arrive, Rond, Croix, Point, Etoile, Case
 from app.src.engine.grille import Grille
@@ -12,34 +13,40 @@ class Solver:
     - Pythagore
     """
 
-    def solve_grid_dijkstra(grid : Grille) -> Grille :
+    from typing import List, Tuple
+
+    def solve_grid_dijkstra(grid: Grille) -> Grille:
         """
-        Résout la grille en suivant l'algorithme A* avec une heristique nulle
-        :return: la grille résolu
+        Résout la grille en suivant l'algorithme A* avec une heuristique nulle
+        :return: la grille résolue
         """
         # Initialisation des listes d'ouverture et de fermeture
-        open_list=[tuple[int,int]]
-        close_list=[tuple[int,int]]
+        open_list: List[Tuple[int, int]] = []  # Liste des cases à explorer
+        close_list: List[Tuple[int, int]] = []  # Liste des cases déjà explorées
+
         # Définir la case départ et la case arrivée sous forme de tuple
         depart = grid.get_case_location(Depart)
         arrive = grid.get_case_location(Arrive)
 
-        open_list.append(depart) # Ajouter la case départ à la liste d'ouverture
+        open_list.append(depart)  # Ajouter la case départ à la liste d'ouverture
 
-        #Boucle de résolution
-        while not open_list.contains(arrive):
+        # Boucle de résolution
+        while arrive not in open_list:
             # Trouver la case avec la plus faible distance à partir de la liste d'ouverture
             current_case = open_list[0]
             open_list.remove(current_case)
             close_list.append(current_case)
-            open_list.append(grid.get_case_adjacentes(current_case[0],current_case[1]))
 
-            # Si la case courante est la case arrivée, on a résolu la grille
+            # Ajouter les cases adjacentes à la liste d'ouverture
+            for adjacent in grid.get_case_adjacentes(current_case[0], current_case[1]):
+                if adjacent not in close_list and adjacent not in open_list:
+                    open_list.append(adjacent)
 
         # Met à jour le contenu de la grille avec des cases points
-        for col,lig in close_list:
+        for col, lig in close_list:
             grid.set_case(col, lig, Etoile())
-        return grid()
+
+        return grid
 
     def solve_grid_ville(grid : Grille) -> Grille :
         """

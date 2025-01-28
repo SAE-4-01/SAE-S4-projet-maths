@@ -92,7 +92,7 @@ class Grille:
         # Parcours des lignes de haut en bas
         for lig in range(self.nb_ligne):
             for col in range(self.nb_colonne):
-                if self.get_case(col, lig) is case:
+                if self.get_case(lig, col) is case:
                     return col, lig
 
     def get_case_adjacentes(self, col: int, lig: int) -> list[tuple[int, int]]:

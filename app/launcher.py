@@ -1,6 +1,7 @@
 import os
 
 from app.src.engine.generator import Generator
+from app.src.engine.solver import Solver
 from app.src.importer import Importer
 
 def display_menu_principal() -> str:
@@ -124,8 +125,9 @@ if __name__ == '__main__':
             if grid is None:
                 print("Veuillez d'abord importer ou générer une grille!")
             else :
-                choix = display_menu_resolution()
-
+                choix_heristique = display_menu_resolution()
+                if choix_heristique == "1":
+                    grid = Solver.solve_grid_dijkstra(grid)
         elif choix == "4":
             if grid is None:
                 print("Veuillez d'abord importer ou générer une grille!")
