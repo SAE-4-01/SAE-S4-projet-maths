@@ -5,14 +5,8 @@ from app.src.importer import Importer
 
 def display_menu() -> str:
     """
-       Affiche le menu principal et demande à l'utilisateur de choisir ce qui veut faire
-       :return: le choix de l'utilisateur
-       """
-    # Affichage menu principal et choix de l'utilisateur
-    # 1. Joueur vs Joueur
-    # 2. Joueur vs IA
-    # 3. IA vs IA
-    # 4. Quitter
+    Affiche le menu principal et demande à l'utilisateur de choisir ce qui veut faire
+    :return: le choix de l'utilisateur       """
     print("""
        +----------------------------------------+
        | Bienvenue dans le logiciel PathSolver! |
@@ -38,16 +32,19 @@ def choisir_fichier() -> str:
     """
     fichiers = [f for f in os.listdir("ressources/entree/") if os.path.isfile(os.path.join("ressources/entree/", f))]
     print("Liste des fichier trouvés :")
+    index = 0
     for fichier in fichiers:
-        print(f"- {fichier}")
+        index += 1
+        print(f"{index} - {fichier}")
+
     fichier_incorrect = True
     while fichier_incorrect:
-        fichier_input = input("Veuillez entrer le nom du fichier : ")
-        if fichier_input in fichiers:
+        fichier_input = input("Veuillez entrer le numéro du fichier : ")
+        if int(fichier_input) > 0 and int(fichier_input) <= index:
             fichier_incorrect = False
         else:
             print("Fichier inexistant")
-    return "ressources/entree/" + fichier_input
+    return "ressources/entree/" + fichiers[int(fichier_input)-1]
 
 if __name__ == '__main__':
     grid = None
