@@ -87,3 +87,35 @@ class Grille:
         :return: le nombre de cases dans la grille
         """
         return self.nb_ligne * self.nb_colonne
+
+    def get_case_location(self,case : Depart|Arrive) -> tuple[int, int]:
+        # Parcours des lignes de haut en bas
+        for lig in range(self.nb_ligne):
+            for col in range(self.nb_colonne):
+                if self.get_case(col, lig) is case:
+                    return col, lig
+
+    def get_case_adjacentes(self, col: int, lig: int) -> list[tuple[int, int]]:
+        """
+        :param lig: l'indice de la ligne
+        :param col: l'indice de la colonne
+        :return: une liste des cases adjacentes (non diagonaux) à la case demandée
+        """
+        cases_adjacentes = []
+
+        # Cas limites
+        # Privilégie les cases en-dessous et à droite
+        if lig < self.nb_ligne:
+            if self.get_case(col, lig + 1) is not Croix:
+                cases_adjacentes.append((col, lig + 1))
+        if col >= 0:
+            if self.get_case(col - 1, lig) is not Croix:
+                cases_adjacentes.append((col - 1, lig))
+        if lig >= 0:
+            if self.get_case(col, lig - 1) is not Croix:
+                cases_adjacentes.append((col, lig - 1))
+        if col < self.nb_colonne:
+            if self.get_case(col + 1, lig) is not Croix:
+                cases_adjacentes.append((col + 1, lig))
+
+        return cases_adjacentes

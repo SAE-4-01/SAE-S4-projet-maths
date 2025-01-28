@@ -3,7 +3,7 @@ import os
 from app.src.engine.generator import Generator
 from app.src.importer import Importer
 
-def display_menu() -> str:
+def display_menu_principal() -> str:
     """
     Affiche le menu principal et demande à l'utilisateur de choisir ce qui veut faire
     :return: le choix de l'utilisateur       """
@@ -24,6 +24,25 @@ def display_menu() -> str:
         print("Choix invalide, veuillez choisir un nombre entre 1 et 6")
         choix_input = input("Votre choix : ")
 
+    return choix_input
+def display_menu_resolution() -> str:
+    """
+    Affiche le menu pour choisir une heristique
+    :return: le choix de l'utilisateur       """
+    print("""
+       +----------------------------------------+
+       | Veuillez choisir un calcul             |
+       | d'heristique :                         |
+       |     1. Dijkstra                        |
+       |     2. Manattan                        |
+       |     3. Euclidienne                     |
+       |     4. Retour                          |
+       +----------------------------------------+
+       """)
+    choix_input = input("Votre choix : ")
+    while choix_input not in ["1", "2", "3" ,"4"]:
+        print("Choix invalide, veuillez choisir un nombre entre 1 et 4")
+        choix_input = input("Votre choix : ")
     return choix_input
 def choisir_fichier() -> str:
     """
@@ -58,7 +77,7 @@ if __name__ == '__main__':
     """)
     choix = 0
     while choix != "6":
-        choix = display_menu()
+        choix = display_menu_principal()
         if choix == "1":
             path = choisir_fichier()
             grid = Importer.load_grid_from_file(path)
@@ -105,8 +124,8 @@ if __name__ == '__main__':
             if grid is None:
                 print("Veuillez d'abord importer ou générer une grille!")
             else :
-                print("choix de résolution")
-                #TODO solve la grille
+                choix = display_menu_resolution()
+
         elif choix == "4":
             if grid is None:
                 print("Veuillez d'abord importer ou générer une grille!")
