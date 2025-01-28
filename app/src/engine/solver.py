@@ -1,5 +1,5 @@
 from app.src.engine.grille import Grille
-class Solver
+class Solver:
 
   """
   classe exploitant l'algorithme A*
@@ -9,12 +9,17 @@ class Solver
   - Pythagore
   """
 
-  def solve_grid_pythagore(grid : Grille) -> Grille
+  def solve_grid_pythagore(grid : Grille) -> Grille :
+      """
+      Résout la grille en suivant l'algorithme A* avec une heristique nulle
+
+      """
+      return Grille()
+  def solve_grid_ville(grid : Grille) -> Grille :
       """
       """
-  def solve_grid_ville(grid : Grille) -> Grille
+      return Grille()
+  def solve_grid_pythagore(grid : Grille) -> Grille :
       """
       """
-  def solve_grid_pythagore(grid : Grille) -> Grille
-      """
-      """
+      return Grille()
