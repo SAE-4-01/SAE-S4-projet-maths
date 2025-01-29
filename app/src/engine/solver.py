@@ -1,5 +1,4 @@
 from math import sqrt
-from typing import List, Tuple
 
 from app.src.engine.case import Depart,Arrive, Rond, Croix, Point, Etoile, Case
 from app.src.engine.grille import Grille
@@ -13,48 +12,67 @@ class Solver:
     - Pythagore
     """
 
-    from typing import List, Tuple
-
     def solve_grid_dijkstra(grid: Grille) -> Grille:
         """
-        Résout la grille en suivant l'algorithme A* avec une heuristique nulle
+        Résout la grille en suivant l'algorithme Dijkstra
         :return: la grille résolue
         """
         # Initialisation des listes d'ouverture et de fermeture
-        open_list: List[Tuple[int, int]] = []  # Liste des cases à explorer
-        close_list: List[Tuple[int, int]] = []  # Liste des cases déjà explorées
+        open_list: list[tuple[int, int]] = []  # Liste des cases à explorer
+        close_list: list[tuple[int, int]] = []  # Liste des cases déjà explorées
+        predecessors: dict[tuple[int, int], tuple[int, int]] = {}  # Préserve le chemin
 
         # Définir la case départ et la case arrivée sous forme de tuple
         depart = grid.get_case_location_start()
         arrive = grid.get_case_location_end()
-        print(f" depart est la case {depart[0], depart[1]}")
-        print(f" arriver est la case {arrive[0], arrive[1] }")
+        print(f"Départ : {depart}, Arrivée : {arrive}")
         open_list.append(depart)  # Ajouter la case départ à la liste d'ouverture
-        print("début du traitement")
-        # Boucle de résolution
-        while (not isinstance(grid.get_case(open_list[0][0],open_list[0][1]),Arrive)) or len(open_list) == 0:
-            print(f" liste ouverte : |{open_list.__str__()} | Liste fermee : |{close_list.__str__()} |")
-            # Trouver la case avec la plus faible distance à partir de la liste d'ouverture
-            current_case = open_list[0]
-            print(f" traitement de la case {current_case[0] , current_case[1]}")
-            open_list.pop(0)
 
+        existance_chemin = False
+        # Boucle de résolution
+        while open_list:
+            # Trouver la case avec la plus faible distance
+            current_case = open_list.pop(0)
+
+            # Ajouter la case actuelle à la liste fermée
+            close_list.append(current_case)
+
+            # Vérifier si on est arrivé
+            if current_case == arrive:
+                existance_chemin = True
+                break
 
             # Ajouter les cases adjacentes à la liste d'ouverture
             for adjacent in grid.get_case_adjacentes(current_case[0], current_case[1]):
                 if adjacent not in close_list and adjacent not in open_list:
-                    print(f" ajout du sommet  {adjacent[0], adjacent[1]}")
                     open_list.append(adjacent)
+                    predecessors[adjacent] = current_case  # Enregistrer le prédécesseur
+        if existance_chemin:
 
-            print(f" La case {current_case[0], current_case[1] } à été traité ")
-            close_list.append(current_case)
+            close_list.pop(0)
+            close_list.pop(-1)
+            # Marquer les cases visitées avec des étoiles
+            for case in close_list:
+                grid.set_case(case[0], case[1], Etoile())
 
-        # Met à jour le contenu de la grille avec des cases étoile pour l'ensemble des points visités
-        close_list.pop(0)
-        for i in range (len(close_list)):
-            grid.set_case(close_list[i][0], close_list[i][1], Etoile())
-            print(f"La case {close_list[i][0], close_list[i][1]} à été marquée ")
-        return grid
+            # Retracer le chemin optimal en suivant les prédécesseurs
+            path = []
+            current = arrive
+            while current != depart:
+                path.append(current)
+                current = predecessors.get(current, depart)  # Remonter au prédécesseur
+            path.reverse()  # Le chemin est construit à l'envers
+
+            # Marquer le chemin optimal avec des points
+            path.pop(-1)
+            for case in path:
+                grid.set_case(case[0], case[1], Point())  # Utiliser une classe Point pour marquer
+            print("Un chemin à été trouvé")
+            print(grid.__str__())
+            return grid
+        else :
+            print("Aucun chemin n'a pu être trouvé")
+            return grid
 
     def solve_grid_ville(grid : Grille) -> Grille :
         """
