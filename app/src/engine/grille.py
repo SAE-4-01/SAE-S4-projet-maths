@@ -10,10 +10,10 @@ class Grille:
         """
         Constructeur de la classe Grille
         """
-        if nb_ligne <= 0:
-            raise ValueError("Le nombre de lignes doit être supérieur à 0")
-        if nb_colonne <= 0:
-            raise ValueError("Le nombre de colonnes doit être supérieur à 0")
+        if nb_ligne <= 2:
+            raise ValueError("Le nombre de lignes doit être supérieur à 2")
+        if nb_colonne <= 2:
+            raise ValueError("Le nombre de colonnes doit être supérieur à 2")
 
         # grille à résoudre
         # la base de la grille commence à la ligne 0 et à la colonne 0
@@ -28,7 +28,7 @@ class Grille:
         """
         return self.grille
 
-    def get_case(self, ligne: int, colonne: int):
+    def get_case(self, ligne: int, colonne: int) -> Case :
         """
         Permet de récupérer une case de la grille
         :param ligne: l'indice de la ligne
@@ -88,14 +88,20 @@ class Grille:
         """
         return self.nb_ligne * self.nb_colonne
 
-    def get_case_location(self,case : Depart|Arrive) -> tuple[int, int]:
+    def get_case_location_start(self) -> tuple[int, int]:
         # Parcours des lignes de haut en bas
         for lig in range(self.nb_ligne):
             for col in range(self.nb_colonne):
-                if self.get_case(lig, col) is case:
-                    return col, lig
+                if isinstance(self.get_case(lig, col), Depart) :
+                    return lig, col
+    def get_case_location_end(self) -> tuple[int, int]:
+        # Parcours des lignes de haut en bas
+        for lig in range(self.nb_ligne):
+            for col in range(self.nb_colonne):
+                if isinstance(self.get_case(lig, col), Arrive) :
+                    return lig, col
 
-    def get_case_adjacentes(self, col: int, lig: int) -> list[tuple[int, int]]:
+    def get_case_adjacentes(self, lig: int, col: int) -> list[tuple[int, int]]:
         """
         :param lig: l'indice de la ligne
         :param col: l'indice de la colonne
@@ -104,18 +110,18 @@ class Grille:
         cases_adjacentes = []
 
         # Cas limites
-        # Privilégie les cases en-dessous et à droite
-        if lig < self.nb_ligne:
-            if self.get_case(col, lig + 1) is not Croix:
-                cases_adjacentes.append((col, lig + 1))
-        if col >= 0:
-            if self.get_case(col - 1, lig) is not Croix:
-                cases_adjacentes.append((col - 1, lig))
-        if lig >= 0:
-            if self.get_case(col, lig - 1) is not Croix:
-                cases_adjacentes.append((col, lig - 1))
-        if col < self.nb_colonne:
-            if self.get_case(col + 1, lig) is not Croix:
-                cases_adjacentes.append((col + 1, lig))
+        # Privilégie les cases à droite et en dessous
+        if col > 0:
+            if not isinstance(self.get_case(lig, col - 1),Croix):
+                cases_adjacentes.append((lig, col - 1))
+        if lig < self.nb_ligne - 1 :
+            if not isinstance(self.get_case(lig + 1, col),Croix):
+                cases_adjacentes.append((lig + 1, col))
+        if lig > 0:
+            if not isinstance(self.get_case(lig - 1, col),Croix):
+                cases_adjacentes.append((lig - 1, col))
+        if col < self.nb_colonne - 1 :
+            if not isinstance(self.get_case(lig, col + 1),Croix):
+                cases_adjacentes.append((lig, col + 1))
 
         return cases_adjacentes
