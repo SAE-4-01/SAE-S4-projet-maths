@@ -6,7 +6,7 @@ class Solver:
 
     """
     Classe exploitant l'algorithme A*
-    avec 3 types de calcul de l'heristique
+    avec 3 types de calcul de l'heuristique
     - Dijkstra
     - Ville ou quadrillage
     - Pythagore
@@ -76,7 +76,12 @@ class Solver:
 
     def solve_grid_ville(grid : Grille) -> Grille :
         """
+        Résout la grille en suivant l'algorithme Dijkstra
+        :return: la grille résolue
         """
+
+
+
         return Grille()
     def solve_grid_pythagore(grid : Grille) -> Grille :
         """

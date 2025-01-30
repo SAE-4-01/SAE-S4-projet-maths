@@ -125,3 +125,14 @@ class Grille:
                 cases_adjacentes.append((lig, col + 1))
 
         return cases_adjacentes
+
+    def to_str(self ) -> str:
+        """
+        :return: la grille à exporter en str
+        """
+        str_grid = ""
+        for i in range(self.nb_ligne):
+            for j in range(self.nb_colonne):
+                str_grid += self.grille[i][j].get_caractere()
+            str_grid += "\n"
+        return str_grid

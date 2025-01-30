@@ -28,12 +28,12 @@ def display_menu_principal() -> str:
     return choix_input
 def display_menu_resolution() -> str:
     """
-    Affiche le menu pour choisir une heristique
+    Affiche le menu pour choisir une heuristique
     :return: le choix de l'utilisateur       """
     print("""
        +----------------------------------------+
        | Veuillez choisir un calcul             |
-       | d'heristique :                         |
+       | d'heuristique :                        |
        |     1. Dijkstra                        |
        |     2. Manattan                        |
        |     3. Euclidienne                     |
@@ -125,9 +125,13 @@ if __name__ == '__main__':
             if grid is None:
                 print("Veuillez d'abord importer ou générer une grille!")
             else :
-                choix_heristique = display_menu_resolution()
-                if choix_heristique == "1":
+                choix_heuristique = display_menu_resolution()
+                if choix_heuristique == "1":
                     grid = Solver.solve_grid_dijkstra(grid)
+                if choix_heuristique == "2":
+                    grid = Solver.solve_grid_ville(grid)
+                if choix_heuristique == "3":
+                    grid = Solver.solve_grid_pythagore(grid)
         elif choix == "4":
             if grid is None:
                 print("Veuillez d'abord importer ou générer une grille!")
