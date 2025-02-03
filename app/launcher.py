@@ -3,10 +3,11 @@ import os
 from app.src.engine.generator import Generator
 from app.src.engine.solver import Solver
 from app.src.importer import Importer
-from app.src.exporter import export_grille
+from app.src.exporter import Exporter
 
 def display_menu_principal() -> str:
-    """
+    """1
+
     Affiche le menu principal et demande à l'utilisateur de choisir ce qui veut faire
     :return: le choix de l'utilisateur       """
     print("""
@@ -144,5 +145,5 @@ if __name__ == '__main__':
                 print("Veuillez d'abord importer ou générer une grille!")
             else:
                 print("Exportation de la grille")
-                grid.export_grille("../ressources/sortie/grille.txt")
+                Exporter.export_grille(grid,"/ressources/sortie/")
     print("Au revoir!")

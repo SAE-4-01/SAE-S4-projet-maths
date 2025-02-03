@@ -1,22 +1,27 @@
 import os
+from datetime import datetime
+from app.src.engine.grille import Grille
 
-def export_grille(self, chemin_fichier="grille_exportée.txt"):
+
+class Exporter :
     """
-    Exporte la grille dans un fichier texte à l'emplacement spécifié
+    Classe d'exportation de la grille sous forme de fichier txt
     """
-    try:
-        # Vérification de l'existence du répertoire
-        dossier = os.path.dirname(chemin_fichier)
-        if dossier and not os.path.exists(dossier):
-            os.makedirs(dossier)
+    @staticmethod
+    def export_grille(grid : Grille, folder_path="../ressources/sortie/"):
+        """
+        Exporte la grille dans un fichier texte à l'emplacement spécifié
+        """
+        try:
+            file_path = folder_path + "grille_" + datetime.now().strftime("%Y-%m-%d_%H:%M:%S") + (".txt")
+            # Vérification de l'existence du répertoire
+            dossier = os.path.dirname(file_path)
+            if dossier and not os.path.exists(dossier):
+                os.makedirs(dossier)
 
-        contenu = self.to_str()
-        with open(chemin_fichier, "w") as fichier:
-            fichier.write(contenu)
-        print(f"Grille exportée avec succès dans '{chemin_fichier}'")
-    except Exception as e:
-        print(f"Erreur lors de l'exportation : {e}")
-
-
-grille = Grille(4, 4)
-grille.export_grille("/chemin/vers/mon/dossier/grille.txt")
+            contenu = grid.to_str()
+            with open(file_path, "w") as fichier:
+                fichier.write(contenu)
+            print(f"Grille exportée avec succès dans '{file_path}'")
+        except Exception as e:
+            print(f"Erreur lors de l'exportation : {e}")
