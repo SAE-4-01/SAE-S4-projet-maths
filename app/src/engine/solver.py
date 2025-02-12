@@ -76,13 +76,14 @@ class Solver:
 
     def solve_grid_ville(grid: Grille) -> Grille:
         """
-        Résout la grille en suivant l'algorithme Dijkstra
+        Résout la grille en suivant l'algorithme A* avec une heuristique.
+        Place des objets Point() sur le chemin le plus court trouvé.
         :return: la grille résolue
         """
         # Initialisation des listes d'ouverture et de fermeture
         open_list: list[tuple[int, int, int, int]] = []  # Liste des cases à explorer
         close_list: list[tuple[int, int]] = []  # Liste des cases déjà explorées
-        predecessors: dict[tuple[int, int], tuple[int, int]] = {}  # Préserve le chemin
+        parents: dict[tuple[int, int], tuple[int, int]] = {}  # Dictionnaire des parents
 
         # Définir la case départ et la case arrivée sous forme de tuple
         depart = grid.get_case_location_start()
@@ -95,49 +96,57 @@ class Solver:
         existance_chemin = False
         # Boucle de résolution
         while open_list:
-            print(f"Open liste actuelle{open_list}")
-            print(f"Open close actuelle{close_list}")
-            # Trouver la case avec la plus faible distance
+            print(f"Open liste actuelle {open_list}")
+            print(f"Close liste actuelle {close_list}")
+
+            # Trouver la case avec la plus faible f = g + h
+            #open_list.sort(key=lambda x: x[2] + x[3])  # Trier par coût total (g + h)
             current_case = open_list.pop(0)
 
             # Ajouter la case actuelle à la liste fermée
             close_list.append((current_case[0], current_case[1]))
 
             # Vérifier si on est arrivé
-            if (current_case[0],current_case[1]) == arrive:
+            if (current_case[0], current_case[1]) == arrive:
                 existance_chemin = True
                 break
+
             # Ajouter les cases adjacentes à la liste d'ouverture
             for adjacent in grid.get_case_adjacentes(current_case[0], current_case[1]):
-                # Le point n'est pas traité
-                if adjacent not in close_list :
+                if adjacent not in close_list:
                     g = current_case[2] + 1
-                    h = Solver.get_heuristic_ville(adjacent,arrive)
-                    index_case_in_list = Solver.case_in_list(adjacent,open_list)
-                    open_list = Solver.place_case_in_list((adjacent[0], adjacent[1], g, h), open_list,
-                                                          index_case_in_list)
-                    predecessors[adjacent] = (current_case[0], current_case[1]) # Enregistrer le prédécesseur
+                    h = Solver.get_heuristic_ville(adjacent, arrive)
+                    index_case_in_list = Solver.case_in_list(adjacent, open_list)
 
-        if existance_chemin :
+                    if index_case_in_list == -1:  # Si la case n'est pas dans la liste ouverte
+                        parents[adjacent] = (current_case[0], current_case[1])  # Stocker le parent
+                        open_list = Solver.place_case_in_list((adjacent[0], adjacent[1], g, h), open_list,
+                                                              index_case_in_list)
+                    else:
+                        # Mettre à jour le parent si un chemin plus court est trouvé
+                        existing_case = open_list[index_case_in_list]
+                        if g < existing_case[2]:
+                            parents[adjacent] = (current_case[0], current_case[1])  # Mise à jour du parent
+                            open_list[index_case_in_list] = (adjacent[0], adjacent[1], g, h)  # Mise à jour des coûts
+
+        if existance_chemin:
             close_list.pop(0)
             close_list.pop(-1)
             # Marquer les cases visitées avec des étoiles
             for case in close_list:
                 grid.set_case(case[0], case[1], Etoile())
-
-            # Retracer le chemin optimal en suivant les prédécesseurs
-            path = []
-            current = arrive
+            # Retracer le chemin optimal en utilisant le dictionnaire des parents
+            chemin = []
+            current = parents[arrive]
             while current != depart:
-                path.append(current)
-                current = predecessors.get(current, depart)  # Remonter au prédécesseur
-            path.reverse()  # Le chemin est construit à l'envers
+                chemin.append(current)
+                current = parents[current]
+            chemin.reverse()
+            # Placer des objets Point() sur le chemin
+            for case in chemin:
+                grid.set_case(case[0], case[1], Point())
 
-            # Marquer le chemin optimal avec des points
-            path.pop(-1)
-            for case in path:
-                grid.set_case(case[0], case[1], Point())  # Utiliser une classe Point pour marquer
-            print("Un chemin à été trouvé")
+            print("Un chemin a été trouvé")
             print(grid.__str__())
             return grid
         else:
