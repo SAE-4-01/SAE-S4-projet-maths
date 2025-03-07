@@ -23,6 +23,7 @@ class Importer :
             # Convertir la chaîne en grille
             if grid_ok:
                 grid = Generator.string_to_grid(grid_string)
+                print("La grille à été correctement importée.")
             else:
                 grid = None
                 print("Erreur de conversion de la chaîne en grille.")
