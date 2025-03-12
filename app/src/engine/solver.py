@@ -67,7 +67,6 @@ class Solver:
                         h = Solver.get_heuristic_ville(adjacent, arrive)
                     elif method == 'pythagore':
                         h = Solver.get_heuristic_pythagore(adjacent, arrive)
-                        print(f"{Solver.get_heuristic_pythagore(adjacent, arrive)} vs {Solver.get_heuristic_ville(adjacent, arrive)}")
 
                     index_case_in_list = Solver.case_in_list(adjacent, open_list)
 
