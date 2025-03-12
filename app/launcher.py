@@ -79,15 +79,15 @@ def display_menu_comparaison() -> tuple[str, str]:
         print("Choix invalide, veuillez choisir un nombre entre 1 et 3")
         choix_input_1 = input("Votre choix : ")
     print("""
-           +----------------------------------------+
-           | Veuillez choisir une autre méthode     |
-           | de calcul d'heuristique différent de   |
-           | la première pour la comparer :         |
-           |     1. Dijkstra                        |
-           |     2. Manhattan                       |
-           |     3. Euclidienne                     |
-           +----------------------------------------+
-           """)
+        +----------------------------------------+
+        | Veuillez choisir une autre méthode     |
+        | de calcul d'heuristique différente de  |
+        | la première pour la comparer :         |
+        |     1. Dijkstra                        |
+        |     2. Manhattan                       |
+        |     3. Euclidienne                     |
+        +----------------------------------------+
+        """)
     choix_input_2 = input("Votre choix : ")
     while choix_input_2 not in ["1", "2", "3"] or choix_input_2 == choix_input_1:
         print("Choix invalide, veuillez choisir un nombre entre 1 et 3 et différent du premier")
@@ -123,7 +123,7 @@ def display_menu_information_generation() -> tuple[int, int, float, bool]:
         option = True
     else:
         option = False
-    return int(hauteur), int(largeur), float(taux), option
+    return int(largeur), int(hauteur), float(taux), option
 
 if __name__ == '__main__':
     grid = None
@@ -201,10 +201,16 @@ if __name__ == '__main__':
                 choix_heuristiques_str.append("pythagore")
 
             for i in range(int(nombre_repetition_calcul_heuristique)):
-                grid = Generator.generate_grid(choix_generation[0], choix_generation[1], choix_generation[2], choix_generation[3])
+                grille_resolvable = False
+                while not grille_resolvable: # Régénère une grille tant qu'elle n'est pas résolvable peu poser des problèmes si le taux est
+                # proche ou égal à 1
+                    grid = Generator.generate_grid(choix_generation[0], choix_generation[1], choix_generation[2], choix_generation[3])
+                    if Solver.solve_grid(grid, "ville")[3] != 0: # Test de la grille le plus rapide
+                        grille_resolvable = True
+                        break
                 liste_resultat_1.append(Solver.solve_grid(grid, choix_heuristiques_str[0]))
                 liste_resultat_2.append(Solver.solve_grid(grid, choix_heuristiques_str[1]))
-
+    
             total_temps_execution_1 = 0
             total_temps_execution_2 = 0
             nombre_case_total_visite_1 = 0
