@@ -173,10 +173,10 @@ if __name__ == '__main__':
         elif choix == "5":
             if grid is not None:
                 print("Exportation de la grille")
-                Exporter.export_grille(copy.deepcopy(grid), "/ressources/sortie/")
+                Exporter.export_grille(grid, "/ressources/sortie/")
             elif grid_saved is not None:
                 print("Exportation de la grille")
-                Exporter.export_grille(copy.deepcopy(grid_saved), "/ressources/sortie/")
+                Exporter.export_grille(grid_saved, "/ressources/sortie/")
             else:
                 print("Veuillez d'abord importer ou générer une grille!")
         elif choix == "6":
@@ -210,7 +210,7 @@ if __name__ == '__main__':
                         break
                 liste_resultat_1.append(Solver.solve_grid(grid, choix_heuristiques_str[0]))
                 liste_resultat_2.append(Solver.solve_grid(grid, choix_heuristiques_str[1]))
-    
+
             total_temps_execution_1 = 0
             total_temps_execution_2 = 0
             nombre_case_total_visite_1 = 0
