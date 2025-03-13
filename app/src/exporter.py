@@ -13,11 +13,8 @@ class Exporter :
         Exporte la grille dans un fichier texte à l'emplacement spécifié
         """
         try:
-            file_path = folder_path + "grille_" + datetime.now().strftime("%Y-%m-%d_%H:%M:%S") + (".txt")
-            # Vérification de l'existence du répertoire
-            dossier = os.path.dirname(file_path)
-            if dossier and not os.path.exists(dossier):
-                os.makedirs(dossier)
+            file_path = folder_path + "grille_" + datetime.now().strftime("%Y-%m-%d_%H-%M-%S") + (".txt")
+
 
             contenu = grid.to_str()
             with open(file_path, "w") as fichier:
