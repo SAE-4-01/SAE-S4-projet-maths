@@ -173,10 +173,10 @@ if __name__ == '__main__':
         elif choix == "5":
             if grid is not None:
                 print("Exportation de la grille")
-                Exporter.export_grille(grid, "/ressources/sortie/")
+                Exporter.export_grille(grid, "C:/Users/Ordinateur/PycharmProjects/SAE_MATHS_4.01_A/app/ressources/sortie/")
             elif grid_saved is not None:
                 print("Exportation de la grille")
-                Exporter.export_grille(grid_saved, "/ressources/sortie/")
+                Exporter.export_grille(grid_saved, "C:/Users/Ordinateur/PycharmProjects/SAE_MATHS_4.01_A/app/ressources/sortie/")
             else:
                 print("Veuillez d'abord importer ou générer une grille!")
         elif choix == "6":
